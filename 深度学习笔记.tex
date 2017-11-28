@@ -1,0 +1,46 @@
+
+\documentclass[16pt,UTF8]{ctexart}
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+
+\begin{document}\LARGE
+
+\section{softmax，交叉熵}
+	\begin{displaymath}
+	Softmax\textrm{回归}:softmax(y)_{i} = e^{yi}/\sum_{j=1}^n e^{yi}	
+	\end{displaymath}
+	Softmax层将神经网络的输出变成一个概率分布，从而可以通过交叉熵来计算预测的概率分布和真实答案的概率分布之间的距离了。\\
+	\begin{displaymath}
+	H(p,q) = \sum_{x} p(x)log(q(x)) 
+	\end{displaymath}
+	交叉熵刻画的是两个概率分布之间的距离，他是不对称的。
+	\begin{displaymath}
+  	H(p,q) \neq H(q,p)
+	\end{displaymath}
+	他刻画的是通过概率分布q来表达概率分布p的困难程度。因为正确答案是希望得到的结果，所以当交叉熵作为神经网络的损失函数的时候，p代表的是正确答案，q代表的师预测值。交叉熵刻画的是两个概率分布的距离，也就是说交叉熵越小，两个概率分布越接近。
+	
+\section{L1,L2正则化}
+	\indent L1:Lasso , L2:Ridge \\		
+
+	\begin{displaymath}
+	L1:R(w) = ||w||_{1} = \sum_{i}|w_{i}|
+	\end{displaymath}
+	\begin{displaymath}
+	L2:R(w) = ||w||_{2} = \sum_{i}|w_{i}^{2}|
+	\end{displaymath}
+	
+	\indent L1:让参数更稀疏，L2则不会。因为当参数很小时，比如0.001，这个参数的平方基本上就可以忽略了，于是模型不会进一步减个这个参数调整为0。\\
+	\indent L1不可导而L2可导。因为在优化的时候需要计算损失函数的偏导数，所以对L2正则化的损失函数的优化更加简洁，优化L1正则化的损失函数更加复杂。\\
+	\indent 实践中也可将L1和L2同时使用:
+	\begin{displaymath}
+		R(w) = \sum_{i}\alpha|w_{i}| + (1 - \alpha)w_{i}^{2}
+	\end{displaymath}
+	
+\section{神经网络优化过程中可能遇到的问题}
+	\begin{enumerate}
+	\item 通过指数衰减的方式来设置学习率。通过这种方法，既可以加快训练初期的训练速度，同时在训练后期又不会出现损失函数在极小值附近徘徊往返的情况。
+	\item 通过正则化解决过拟合的问题。
+	\item 使用滑动平均模型让最后得到的模型在未知数据上更健壮了。
+	\end{enumerate}
+
+\end{document}
