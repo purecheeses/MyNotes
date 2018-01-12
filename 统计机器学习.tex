@@ -1,0 +1,48 @@
+\documentclass[16pt,UTF8]{ctexart}
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+
+\begin{document}\LARGE
+
+\section{风险函数}
+\subsection{经验风险最小化(empirical risk minimization,ERM)}
+\indent 极大似然估计(maximum liklihood estimation)就是经验风险最小化的一个例子。（容易过拟合，不加正则化）
+\subsection{结构风险最小化(structural risk minimization,SRM)}
+\indent 贝叶斯估计中的最大后延概率估计(maximum posterior probability estimation,MAP) 就是结构风险最小化的一个例子。(加了正则化)
+
+\section{生成模型，判别模型}
+\indent 生成模型就是生成(数据的分布)的模型。
+
+\indent 判别模型就是判别(数据输出)的模型。
+
+\indent 更进一步，从结果角度，两种模型都能给你 输出量（label 或 y etc.)。但，生成模型的处理过程会告诉你关于数据的一些统计信息（p(x|y) 分布 etc.），更接近于统计学；而 判别模型则是通过一系列处理得到结果，这个结果可能是概率的或不是，这个并不改变他是不是判别的。
+
+\section{感知机}
+\subsection{关于感知机学习算法的对偶形式}
+		我们假设样本点($x_i,y_i$)在更新的过程中使用了$n_i$次。因此，从原始形式的学习过程中可得到，最后学习到的w和b可以分别表示为:
+		
+\indent $$ w = \sum_{i=1}^Nn_i\eta y_i x_i	\eqno{(1)} $$
+
+\indent $$ b = \sum_{i=1}^N n_i \eta y_i \eqno{(2)} $$ 
+
+\indent 考虑$n_i$的含义:如果$n_i$的值越大，那么意味着这个样本点经常被误分。什么样的样本点容易被误分？很明显就是离超平面近的点。超平面稍微一动一点点，这个点就从正变为负或者从负变正。如果学过SVM就会发现，这种点很可能就是支持向量。
+\indent 代入式(1)和式子(2)到原始形式的感知机模型中，可得:
+$$ f(x) = sign(w.x+b) = sign(\sum_{j=1}^N n_j \eta y_j x_j.x + \sum_{j=1}^N n _j \eta y_j) \eqno{(3)} $$
+\indent 此时，学习的目标就不再是w和b,而是$n_i$,i=1,2,....N。
+
+\indent 相应的，训练过程变成:
+\begin{enumerate}
+\item 初始时$\forall n_i$=0。
+\item 在训练集中选取数据($x_i,y_i$)。
+\item 如果$y_i(\sum_{j=1}^N n_j \eta y_j x_j .x_i + \sum_{j=1}^N n_j \eta y_j) \leq 0$,更新:$n_i \Leftarrow n_i$ +1 。
+\item 转至2直至没有误分类数据。
+\end{enumerate}
+\indent 可以看出，其实对偶形式和原始形式没有本质区别，但是从式(3)可以看出，样本点的特征向量以内积的形式存在于感知机对偶形式的训练算法中，因此，如果事先计算好所有的内积，也就是Gram矩阵，就可以大大提高计算速度。
+
+\indent Gram矩阵:
+$$ G = [x_i.x_j]_{N*N}$$
+
+\section{k近邻}
+\subsection{kd树}
+
+\end{document}
